@@ -1,5 +1,6 @@
 import Banner from '@/components/Banner'
 import Header from '@/components/Header'
+import SmallCard from '@/components/SmallCard'
 import Head from 'next/head'
 // import Image from 'next/image'
 // import { Inter } from 'next/font/google'
@@ -26,10 +27,12 @@ export default function Home({ exploreData }) {
 
           {/* Pull some data from a server - API endpoints */}
           {/* note that the exploreData has a ?, it is used to handle if the data is there or not gracefully */}
-          {exploreData?.map((item) => (
-              <h1>{item.location}</h1>
-          ))}
-          {/* {exploreData[0].location} */}
+          {/* When using a MAP, you must always always use a key */}
+          <div>
+            {exploreData?.map((item) => (
+              <SmallCard key={item.img} img={item.img} location={item.location} distance={item.distance} />
+            ))}
+          </div>
         </section>
       </main>
 
