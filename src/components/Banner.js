@@ -22,7 +22,7 @@ function Banner() {
 
                 {/* bg-white doesn't show until you get some padding around the button */}
                 <button className='text-purple-500 bg-white px-10 py-4 rounded-full shadow-md font-bold my-3
-                    hover:shadow-lg active:scale-95 transistion duration-100'>I'm flexible</button>
+                    hover:shadow-lg active:scale-95 transistion duration-100'>I&apos;m flexible</button>
             </div>
 
         </div>
