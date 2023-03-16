@@ -1,6 +1,7 @@
 import Banner from '@/components/Banner'
 import Header from '@/components/Header'
 import SmallCard from '@/components/SmallCard'
+import MediumCard from '@/components/MediumCard'
 import Head from 'next/head'
 // import Image from 'next/image'
 // import { Inter } from 'next/font/google'
@@ -8,7 +9,8 @@ import Head from 'next/head'
 
 // const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({ exploreData }) {
+export default function Home({ exploreData, cardData }) {
+  console.log(cardData)
   return (
     <>
       <Head>
@@ -28,12 +30,24 @@ export default function Home({ exploreData }) {
           {/* Pull some data from a server - API endpoints */}
           {/* note that the exploreData has a ?, it is used to handle if the data is there or not gracefully */}
           {/* When using a MAP, you must always always use a key */}
-          <div>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
             {exploreData?.map((item) => (
-              <SmallCard key={item.img} img={item.img} location={item.location} distance={item.distance} />
+              <SmallCard key={item.location} img={item.img} location={item.location} distance={item.distance} />
             ))}
           </div>
         </section>
+
+        <section>
+          <h2 className='text-4xl font-semibold py-8'>Live Anywhere</h2>
+
+          <div className='flex space-x-3 overflow-scroll scrollbar-hide p-3 -ml-3'>
+            {cardData?.map((item) => (
+              <MediumCard key={item.title} img={item.img} title={item.title} />
+            ))}
+          </div>
+
+        </section>
+
       </main>
 
     </>
@@ -57,9 +71,10 @@ export async function getStaticProps() {
   //   props: { exploreData }, // will be passed to the page component as props
   // }
   try {
-    const exploreData = await fetch('https://www.jsonkeeper.com/b/4G1G').then(res => res.json())
+    const exploreData = await fetch('https://chimmytee.github.io/json-bin/explore.json').then(res => res.json())
+    const cardData = await fetch('https://chimmytee.github.io/json-bin/live-anywhere.json').then(res => res.json())
     return {
-      props: { exploreData },
+      props: { exploreData, cardData },
     }
   } catch (error) {
     console.log(error)
