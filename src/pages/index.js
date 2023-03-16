@@ -3,6 +3,7 @@ import Header from '@/components/Header'
 import SmallCard from '@/components/SmallCard'
 import MediumCard from '@/components/MediumCard'
 import Head from 'next/head'
+import LargeCard from '@/components/LargeCard'
 // import Image from 'next/image'
 // import { Inter } from 'next/font/google'
 // import styles from '@/styles/Home.module.css'
@@ -10,7 +11,6 @@ import Head from 'next/head'
 // const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({ exploreData, cardData }) {
-  console.log(cardData)
   return (
     <>
       <Head>
@@ -45,8 +45,10 @@ export default function Home({ exploreData, cardData }) {
               <MediumCard key={item.title} img={item.img} title={item.title} />
             ))}
           </div>
-
         </section>
+
+        <LargeCard img="https://links.papareact.com/4cj" title='The Greatest Outdoors'
+          description='Wishlists curated by Airbnb.' buttonText="Get Inspired" />
 
       </main>
 
