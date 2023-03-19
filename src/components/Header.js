@@ -6,9 +6,10 @@ import { GlobeAltIcon } from '@heroicons/react/24/outline'
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRangePicker } from 'react-date-range';
+import { useRouter } from 'next/router'
 
 
-function Header() {
+function Header({ placeholder }) {
   // basic syntax for useState()
   const [searchInput, setSearchInput] = useState('');
   // new Date() gives us today. 
@@ -16,6 +17,23 @@ function Header() {
   const [endDate, setEndDate] = useState(new Date());
   // default no. of guests is 1
   const [noOfGuests, setNoOfGuests] = useState(1);
+  // router is used to re-direct pages
+  const router = useRouter();
+
+  const search = () => {
+    // instead of a doing a re-direct we can pass in an object
+    // router.push('/search');
+    // query parameter, carries the query through to the url.
+    router.push({
+      pathname: '/search',
+      query: {
+        location: searchInput,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        noOfGuests
+      }
+    });
+  }
 
   const selectionRange = {
     startDate: startDate,
@@ -37,8 +55,10 @@ function Header() {
     // <header className='sticky top-0 z-50 p-4 shadow-md flex justify-between bg-white bg-transparent'>
     <header className='sticky top-0 z-50 p-4 shadow-md bg-white bg-transparent flex flex-wrap'>
       {/* Use Nextjs P images, because it reduces file size significantly, compared to JPEG, etc */}
+      {/* router using push is so we can have stack functionality, that we can go forward and back
+      between our pages. "/" is the homepage */}
       <div className='flex basis-full justify-between'>
-        <div className="cursor-pointer flex items-center">
+        <div onClick={() => router.push("/")} className="cursor-pointer flex items-center">
           <HeaderImage src="https://links.papareact.com/qd3"
             alt=""
             width={150}
@@ -50,7 +70,7 @@ function Header() {
 
         <div className="flex max-w-md grow items-center justify-between border-2 rounded-full px-3 mx-2 shadow-sm">
           <input value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
-            type='text' placeholder='Start your search' className='outline-none text-gray-600' />
+            type='text' placeholder={placeholder || 'Start your search'} className='outline-none text-gray-600 basis-full' />
           <MagnifyingGlassIcon className='h-8 bg-red-400 text-white rounded-full p-2 ml-2 cursor-pointer' />
         </div>
 
@@ -87,7 +107,7 @@ function Header() {
           <div className='flex'>
             {/* The flex grow is basically the same as justify-around */}
             <button onClick={resetInput} className='flex-grow text-gray-500'>Cancel</button>
-            <button className='flex-grow text-red-400'>Search</button>
+            <button onClick={search} className='flex-grow text-red-400'>Search</button>
           </div>
         </div>)}
     </header>
